@@ -3,6 +3,7 @@ import './App.css'
 import Layout from './Layout'
 import IndexPage from './pages/IndexPage'
 import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
 const App = () => {
   return (
@@ -17,6 +18,10 @@ const App = () => {
         <Route
           path='/login'
           element={<LoginPage />}
+        />
+        <Route
+          path='/register'
+          element={<RegisterPage />}
         />
       </Route>
     </Routes>

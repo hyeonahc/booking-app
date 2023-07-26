@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom'
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <div className='mt-4 grow flex items-center justify-around'>
       <div className='mb-64'>
-        <h1 className='text-4xl text-center mb-4'>Login</h1>
+        <h1 className='text-4xl text-center mb-4'>Register</h1>
         <form className='max-w-md mx-auto'>
+          <input
+            type='name'
+            placeholder='John Doe'
+          />
           <input
             type='email'
             placeholder='your@email.com'
@@ -14,13 +18,13 @@ const LoginPage = () => {
             type='password'
             placeholder='password'
           />
-          <button className='primary'>Login</button>
+          <button className='primary'>Register</button>
           <div className='text-center py-2 text-gray-500'>
-            Don&apos;t have an account yet?{' '}
+            Already a member?{' '}
             <Link
-              to={'/register'}
+              to={'/login'}
               className='underline text-black'>
-              Register Now
+              Login
             </Link>
           </div>
         </form>
@@ -29,4 +33,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default RegisterPage
