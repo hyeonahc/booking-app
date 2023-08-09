@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
+import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import { UserModel } from './models/User.js'
 
@@ -36,6 +37,32 @@ app.post('/register', async (req, res) => {
     res.json(userDoc)
   } catch (error) {
     res.status(422).json(error)
+  }
+})
+
+const jwtSecret = 'mb8neLvWSb725XC8aRchL1UeXC2pSNgjqodXxKyVj6mR2aP8dxn'
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body
+  const userDoc = await UserModel.findOne({
+    email,
+  })
+  if (userDoc) {
+    const passOk = bcrypt.compareSync(password, userDoc.password)
+    if (passOk) {
+      jwt.sign(
+        { email: userDoc.email, id: userDoc._id },
+        jwtSecret,
+        {},
+        (err, token) => {
+          if (err) throw err
+          // Not Working: not setting cookie in browser
+          res.cookie('token', token, { sameSite: 'none' }).json('pass ok')
+        }
+      )
+    } else {
+      res.status(422).json('pass not ok')
+    }
   }
 })
 
