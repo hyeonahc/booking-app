@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
@@ -21,14 +22,21 @@ app.get('/test', (req, res) => {
   res.json('test ok')
 })
 
-app.post('/register', (req, res) => {
+const bcryptSalt = bcrypt.genSaltSync(10)
+
+app.post('/register', async (req, res) => {
   const { name, email, password } = req.body
-  UserModel.create({
-    name,
-    email,
-    password,
-  })
-  res.json({ name, email, password })
+  try {
+    const hashedPassword = bcrypt.hashSync(password, bcryptSalt)
+    const userDoc = await UserModel.create({
+      name,
+      email,
+      password: hashedPassword,
+    })
+    res.json(userDoc)
+  } catch (error) {
+    res.status(422).json(error)
+  }
 })
 
 app.listen(4000, () => {
