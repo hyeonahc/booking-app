@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 
 axios.defaults.baseURL = 'http://localhost:4000'
+axios.defaults.withCredentials = true
 
 const App = () => {
   return (
