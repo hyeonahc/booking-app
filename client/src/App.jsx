@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Route, Routes } from 'react-router'
 import './App.css'
 import Layout from './Layout'
+import { UserContextProvider } from './UserContext'
 import IndexPage from './pages/IndexPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -11,24 +12,26 @@ axios.defaults.withCredentials = true
 
 const App = () => {
   return (
-    <Routes>
-      <Route
-        path='/'
-        element={<Layout />}>
+    <UserContextProvider>
+      <Routes>
         <Route
-          index
-          element={<IndexPage />}
-        />
-        <Route
-          path='/login'
-          element={<LoginPage />}
-        />
-        <Route
-          path='/register'
-          element={<RegisterPage />}
-        />
-      </Route>
-    </Routes>
+          path='/'
+          element={<Layout />}>
+          <Route
+            index
+            element={<IndexPage />}
+          />
+          <Route
+            path='/login'
+            element={<LoginPage />}
+          />
+          <Route
+            path='/register'
+            element={<RegisterPage />}
+          />
+        </Route>
+      </Routes>
+    </UserContextProvider>
   )
 }
 
