@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
@@ -9,6 +10,7 @@ import { UserModel } from './models/User.js'
 const app = express()
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use(
   cors({
@@ -63,6 +65,20 @@ app.post('/login', async (req, res) => {
     } else {
       res.status(422).json('pass not ok')
     }
+  }
+})
+
+// Not Working: Line 60 issue should be resolved first
+app.get('/profile', (req, res) => {
+  const { token } = req.cookie
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err
+      const { name, email, _id } = await UserModel.findById(userData.id)
+      res.json({ name, email, _id })
+    })
+  } else {
+    res.json(null)
   }
 })
 
