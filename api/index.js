@@ -59,7 +59,7 @@ app.post('/login', async (req, res) => {
         (err, token) => {
           if (err) throw err
           // Not Working: not setting cookie in browser
-          res.cookie('token', token, { sameSite: 'none' }).json(userDoc)
+          res.cookie('token', token, { secure: true, sameSite: 'none' }).json(userDoc)
         }
       )
     } else {
@@ -70,7 +70,7 @@ app.post('/login', async (req, res) => {
 
 // Not Working: Line 60 issue should be resolved first
 app.get('/profile', (req, res) => {
-  const { token } = req.cookie
+  const { token } = req.cookies
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err
