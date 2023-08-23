@@ -59,7 +59,12 @@ app.post('/login', async (req, res) => {
         (err, token) => {
           if (err) throw err
           // Not Working: not setting cookie in browser
-          res.cookie('token', token, { secure: true, sameSite: 'none' }).json(userDoc)
+          res
+            .cookie('token', token, {
+              secure: true,
+              sameSite: 'none',
+            })
+            .json(userDoc)
         }
       )
     } else {
