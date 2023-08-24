@@ -58,7 +58,6 @@ app.post('/login', async (req, res) => {
         {},
         (err, token) => {
           if (err) throw err
-          // Not Working: not setting cookie in browser
           res
             .cookie('token', token, {
               secure: true,
@@ -73,7 +72,6 @@ app.post('/login', async (req, res) => {
   }
 })
 
-// Not Working: Line 60 issue should be resolved first
 app.get('/profile', (req, res) => {
   const { token } = req.cookies
   if (token) {
@@ -85,6 +83,10 @@ app.get('/profile', (req, res) => {
   } else {
     res.json(null)
   }
+})
+
+app.post('/logout', (req, res) => {
+  res.cookie('token', '').json(true)
 })
 
 app.listen(4000, () => {
